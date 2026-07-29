@@ -1,0 +1,1134 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>量子力学講義ノート 第11講〜第14講 徹底解説</title>
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['$','$'],['\\(','\\)']], displayMath: [['$$','$$'],['\\[','\\]']] },
+    svg: { fontCache: 'global' }
+  };
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js"></script>
+<style>
+  :root{
+    --navy:#1B3A5C;
+    --navy-dark:#12283F;
+    --paper:#FAF8F3;
+    --card:#FFFFFF;
+    --ink:#22282E;
+    --sub:#5A6472;
+    --gold:#C9942C;
+    --why-bg:#FFF6E8;
+    --why-border:#D9A441;
+    --mean-bg:#EAF3EE;
+    --mean-border:#4C8C6B;
+    --intu-bg:#EEF2FA;
+    --intu-border:#5B7FBF;
+    --sum-bg:#F3ECF7;
+    --sum-border:#8B5FA8;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:"Noto Sans JP","Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;
+    line-height:1.85;
+    font-size:16px;
+  }
+  h1,h2,h3,h4{
+    font-family:"Noto Serif JP","Hiragino Mincho ProN",serif;
+    color:var(--navy-dark);
+    line-height:1.4;
+  }
+  /* ---- header / nav ---- */
+  header.top{
+    background:linear-gradient(135deg,var(--navy) 0%,var(--navy-dark) 100%);
+    color:#fff;
+    padding:36px 24px 28px;
+    text-align:center;
+  }
+  header.top h1{
+    color:#fff;
+    font-size:1.9rem;
+    margin:0 0 6px;
+    letter-spacing:.02em;
+  }
+  header.top p{
+    color:#D8E1EC;
+    margin:0;
+    font-size:.95rem;
+  }
+  nav.tabs{
+    position:sticky;
+    top:0;
+    z-index:50;
+    display:flex;
+    justify-content:center;
+    gap:6px;
+    background:var(--navy-dark);
+    padding:10px 10px;
+    flex-wrap:wrap;
+    box-shadow:0 3px 10px rgba(0,0,0,.15);
+  }
+  nav.tabs button{
+    appearance:none;
+    border:1px solid rgba(255,255,255,.25);
+    background:rgba(255,255,255,.06);
+    color:#E7ECF3;
+    padding:10px 18px;
+    border-radius:999px;
+    font-size:.92rem;
+    font-family:inherit;
+    cursor:pointer;
+    transition:.2s;
+  }
+  nav.tabs button:hover{ background:rgba(255,255,255,.16); }
+  nav.tabs button.active{
+    background:var(--gold);
+    border-color:var(--gold);
+    color:#2b2007;
+    font-weight:700;
+  }
+  main{
+    max-width:920px;
+    margin:0 auto;
+    padding:28px 18px 80px;
+  }
+  section.page{ display:none; }
+  section.page.active{ display:block; animation:fade .35s ease; }
+  @keyframes fade{ from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:none;} }
+
+  .lecture-title{
+    border-bottom:4px solid var(--gold);
+    padding-bottom:14px;
+    margin-bottom:8px;
+  }
+  .lecture-title .eyebrow{
+    display:inline-block;
+    background:var(--navy);
+    color:#fff;
+    font-size:.78rem;
+    letter-spacing:.08em;
+    padding:4px 12px;
+    border-radius:4px;
+    margin-bottom:10px;
+  }
+  .lecture-title h2{ font-size:1.7rem; margin:0; }
+  .lead{
+    background:var(--card);
+    border-left:6px solid var(--navy);
+    padding:18px 20px;
+    border-radius:6px;
+    margin:18px 0 26px;
+    box-shadow:0 1px 4px rgba(0,0,0,.06);
+  }
+  .lead h3{ margin-top:0; font-size:1.05rem; color:var(--navy);}
+
+  h3.step-title{
+    margin-top:44px;
+    font-size:1.25rem;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  h3.step-title .num{
+    background:var(--navy);
+    color:#fff;
+    width:32px;height:32px;
+    border-radius:50%;
+    display:inline-flex;
+    align-items:center;justify-content:center;
+    font-family:"Noto Sans JP",sans-serif;
+    font-size:.95rem;
+    flex:none;
+  }
+  .card{
+    background:var(--card);
+    border-radius:8px;
+    padding:16px 20px;
+    margin:12px 0;
+    box-shadow:0 1px 3px rgba(0,0,0,.06);
+    border:1px solid #ECE7DC;
+  }
+  .box{
+    border-left:5px solid;
+    border-radius:6px;
+    padding:14px 18px;
+    margin:14px 0;
+    font-size:.97rem;
+  }
+  .box .box-label{
+    font-weight:700;
+    font-size:.85rem;
+    letter-spacing:.03em;
+    margin-bottom:6px;
+    display:block;
+  }
+  .why{ background:var(--why-bg); border-color:var(--why-border); }
+  .why .box-label{ color:#8A5B0B; }
+  .meaning{ background:var(--mean-bg); border-color:var(--mean-border); }
+  .meaning .box-label{ color:#2E6249; }
+  .intuition{ background:var(--intu-bg); border-color:var(--intu-border); }
+  .intuition .box-label{ color:#33508C; }
+  .symbols{
+    background:#F6F6F2;
+    border:1px dashed #C9C2AE;
+    border-radius:6px;
+    padding:12px 18px;
+    margin:14px 0;
+  }
+  .symbols .box-label{
+    font-weight:700; color:var(--navy); display:block; margin-bottom:6px; font-size:.85rem;letter-spacing:.03em;
+  }
+  .symbols ul{ margin:6px 0 0; padding-left:1.2em; }
+  .symbols li{ margin:3px 0; }
+  .eqwrap{
+    overflow-x:auto;
+    background:#fff;
+    border:1px solid #E4E0D3;
+    border-radius:6px;
+    padding:14px 16px;
+    margin:12px 0;
+  }
+  .summary-box{
+    background:var(--sum-bg);
+    border:2px solid var(--sum-border);
+    border-radius:10px;
+    padding:20px 24px;
+    margin:36px 0 10px;
+  }
+  .summary-box h3{ margin-top:0; color:#5E3877; }
+  .summary-box ul{ padding-left:1.3em; }
+  .summary-box li{ margin:8px 0; }
+  table.qtab{
+    border-collapse:collapse;
+    width:100%;
+    margin:12px 0;
+    font-size:.92rem;
+  }
+  table.qtab th, table.qtab td{
+    border:1px solid #DDD6C4;
+    padding:8px 10px;
+    text-align:center;
+  }
+  table.qtab th{ background:var(--navy); color:#fff; }
+  table.qtab tr:nth-child(even){ background:#F6F3EA; }
+  .exercise{
+    background:#FDF2F2;
+    border:1px dashed #C97A7A;
+    border-radius:6px;
+    padding:14px 18px;
+    margin:22px 0;
+  }
+  .exercise .box-label{ color:#9C3B3B; font-weight:700; font-size:.85rem; display:block; margin-bottom:6px;}
+  footer.navf{
+    display:flex;
+    justify-content:space-between;
+    margin-top:50px;
+    padding-top:16px;
+    border-top:1px solid #DDD6C4;
+  }
+  footer.navf button{
+    background:var(--navy);
+    color:#fff;
+    border:none;
+    padding:10px 18px;
+    border-radius:6px;
+    cursor:pointer;
+    font-family:inherit;
+  }
+  footer.navf button:hover{ background:var(--navy-dark); }
+  .imgnote{
+    font-size:.85rem;
+    color:var(--sub);
+    text-align:center;
+    margin-top:4px;
+  }
+  strong.key{ color:var(--navy-dark); }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <h1>量子力学 講義ノート 徹底解説</h1>
+  <p>第11講（角度方向・球面調和関数）〜 第14講（デルタ関数・波束）　完全初学者向け</p>
+</header>
+
+<nav class="tabs" id="tabnav">
+  <button data-page="p11" class="active">第11講：角運動量と球面調和関数</button>
+  <button data-page="p12">第12講：動径方程式と水素原子</button>
+  <button data-page="p13">第13講：非束縛状態とトンネル効果</button>
+  <button data-page="p14">第14講：デルタ関数と波束</button>
+</nav>
+
+<main>
+
+<!-- ======================================================= -->
+<!-- 第11講 -->
+<!-- ======================================================= -->
+<section class="page active" id="p11">
+  <div class="lecture-title">
+    <span class="eyebrow">LECTURE 11</span>
+    <h2>θ方向の方程式・Legendreの陪多項式・球面調和関数</h2>
+  </div>
+
+  <div class="lead">
+    <h3>① この講義で扱っている「物理的な状況」（数式なし）</h3>
+    <p>
+      水素原子のように、原子核（プラスの電荷を持つ陽子）のまわりを電子が飛び回っている状況を考えます。
+      電子の位置は、原子核からの「距離」と、原子核を中心にどの「方向」を向いているかという2つの情報で決まります。
+      これは、地球儀の上での位置を「赤道からの緯度（角度θ）」と「経線上の位置（角度φ）」で表すのとまったく同じ発想です。
+    </p>
+    <p>
+      前回までの講義で、電子の波動関数（電子がどこにどれくらいの確率で存在するかを表す数学的な「形」）は、
+      「距離方向の部分」と「角度方向の部分」に分けて考えられることが分かっています。
+      この第11講では、そのうちの<strong class="key">「角度方向の部分」</strong>だけを取り出して、
+      「電子はどんな“向き”のパターンを取りうるのか？」を調べます。
+      結論を先に言うと、電子の向きの取り方（角運動量）は連続的に自由には決まらず、
+      <strong class="key">とびとびの値（量子化）</strong>しか許されないことが分かります。
+      これはコマの首振り運動（歳差運動）が、実は決まった角度でしか許されないようなイメージに近いです。
+    </p>
+  </div>
+
+  <h3 class="step-title"><span class="num">1</span>θ方向の微分方程式を解く準備</h3>
+  <div class="card">
+    <div class="eqwrap">
+      $$\left[\frac{1}{\sin\theta}\frac{d}{d\theta}\left(\sin\theta\frac{d}{d\theta}\right)+\lambda-\frac{m_\ell^2}{\sin^2\theta}\right]\Theta(\theta)=0$$
+    </div>
+    <div class="box why">
+      <span class="box-label">なぜこの操作をするのか</span>
+      シュレディンガー方程式を球座標（距離r、角度θ、角度φ）で書き直すと、変数がr・θ・φにきれいに分離できます。
+      このうち角度θだけに関する部分を取り出したのが、この式です。まずはこの「θ方向の波の形」を先に解いてしまい、
+      あとから距離方向（第12講）と組み合わせるという分業作戦をとります。
+    </div>
+    <div class="symbols">
+      <span class="box-label">記号の意味</span>
+      <ul>
+        <li>$\theta$：原子核を中心とした「緯度」のような角度（0〜π）。$\theta=0$ が北極、$\theta=\pi$ が南極のイメージ。</li>
+        <li>$\Theta(\theta)$：波動関数のうち、θだけに依存する部分。「θ方向の波の形」を表す未知関数。</li>
+        <li>$\lambda$：まだ正体不明の定数。後で角運動量の大きさに対応することが分かります。</li>
+        <li>$m_\ell$：角度φ方向の運動に関連する量子数（この講義の前段階ですでに整数として得られているもの）。</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3 class="step-title"><span class="num">2</span>変数変換 $x=\cos\theta$ でLegendreの陪微分方程式へ</h3>
+  <div class="card">
+    <div class="eqwrap">
+      $$\left[(1-x^2)\frac{d^2}{dx^2}-2x\frac{d}{dx}+\lambda-\frac{m_\ell^2}{1-x^2}\right]f(x)=0$$
+    </div>
+    <div class="box why">
+      <span class="box-label">なぜこの操作をするのか</span>
+      θのままだと $\sin\theta$ や $\cos\theta$ が混じって式が複雑です。そこで $x=\cos\theta$ と置き換えると、
+      三角関数が消えて多項式だけの、数学的に扱いやすい標準形（<strong>Legendreの陪微分方程式</strong>）になります。
+      これは物理の計算でよく使われる「見た目を変えて解きやすくする」典型的なテクニックです。
+      $\theta$ が 0〜π を動くとき、$x=\cos\theta$ は −1〜+1 の範囲を動くことに対応します。
+    </div>
+    <div class="symbols">
+      <span class="box-label">記号の意味</span>
+      <ul>
+        <li>$x=\cos\theta$：角度θを、−1から+1までの数値に置き換えたもの。北極が $x=1$、南極が $x=-1$。</li>
+        <li>$f(x)$：$\Theta(\theta)$ を $x$ の関数として書き直したもの。中身は同じ波の形。</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3 class="step-title"><span class="num">3</span>まず $m_\ell=0$ の場合：べき級数展開とLegendre多項式</h3>
+  <div class="card">
+    <p>
+      $f(x)=\sum_{n=0}^{\infty} a_n x^n$ という無限級数（多項式が無限に続いたもの）の形を仮定して元の方程式に代入すると、
+      係数 $a_n$ たちが満たすべき「漸化式」（隣同士の係数の関係式）が出てきます。
+    </p>
+    <div class="eqwrap">
+      $$a_{n+2}=\frac{n(n+1)-\lambda}{(n+2)(n+1)}a_n$$
+    </div>
+    <div class="box why">
+      <span class="box-label">なぜ無限級数を止める必要があるのか</span>
+      もしこの級数が無限に続いてしまうと、$x=\pm1$（つまり $\theta=0,\pi$、北極・南極）で波動関数が無限大に発散してしまうことが分かります。
+      波動関数は「電子がそこに存在する確率」に関係する量なので、無限大になってしまっては物理的に意味がありません。
+      そこで、級数がどこかの項で強制的にストップする（＝多項式になる）ことを要求します。
+    </div>
+    <div class="eqwrap">
+      $$\lambda=\ell(\ell+1),\qquad \ell=0,1,2,\dots$$
+    </div>
+    <div class="box meaning">
+      <span class="box-label">この結果の物理的な意味</span>
+      級数が有限項で止まるためには、正体不明だった定数 $\lambda$ が $\ell(\ell+1)$（$\ell$ は0以上の整数）という
+      <strong class="key">とびとびの値しか取れない</strong>ことが分かりました。これが「量子化」の最初の現れです。
+      この $\ell$ を<strong class="key">方位量子数</strong>と呼び、後で見るように電子の角運動量の大きさを決める量になります。
+      このときの多項式解を<strong>Legendreの多項式</strong> $P_\ell(x)$ と呼びます。
+    </div>
+  </div>
+
+  <h3 class="step-title"><span class="num">4</span>$m_\ell\neq0$ の場合：Legendreの陪多項式</h3>
+  <div class="card">
+    <p>
+      $m_\ell=0$ のときと同様に、$x\to\pm1$ での発散を避けるように解の形を工夫すると（詳細は指数の肩に $|m_\ell|/2$ が乗る特殊関数になる計算です）、
+      最終的に次の関数が解として得られます。
+    </p>
+    <div class="eqwrap">
+      $$P_\ell^{|m|}(x)=(1-x^2)^{|m|/2}\frac{d^{|m|}}{dx^{|m|}}P_\ell(x)$$
+    </div>
+    <div class="box why">
+      <span class="box-label">なぜこんな複雑な形になるのか</span>
+      $m_\ell\neq0$ の場合、方程式には $\dfrac{m_\ell^2}{1-x^2}$ という「$x=\pm1$ で爆発的に発散する項」が追加で入っています。
+      この発散を打ち消すために、あらかじめ $(1-x^2)^{|m|/2}$ という「端っこでちょうど0になる係数」を掛けておく必要があるのです。
+      これは物理でよくある「境界で悪さをする項を、あらかじめ関数の形に組み込んで無効化する」という発想です。
+    </div>
+    <div class="box meaning">
+      <span class="box-label">この結果の物理的な意味</span>
+      $(x^2-1)^\ell$ を展開すると $x$ の最大次数は $2\ell$ にしかならないため、これを $|m|$ 回微分して0でない結果を得るには
+      $|m|\le \ell$ でなければなりません。つまり、<strong class="key">$m_\ell$ は $-\ell$ から $+\ell$ までの整数しか取れない</strong>という、
+      2つ目の量子化条件が導かれます。
+    </div>
+  </div>
+
+  <h3 class="step-title"><span class="num">5</span>角運動量の量子化と球面調和関数</h3>
+  <div class="card">
+    <div class="eqwrap">
+      $$\hat{\boldsymbol{L}}^2 Y(\theta,\phi)=\hbar^2\ell(\ell+1)Y(\theta,\phi),\qquad
+      \hat{L}_z Y(\theta,\phi)=\hbar m_\ell Y(\theta,\phi)$$
+      $$\ell=0,1,2,\dots\qquad m_\ell=-\ell,-(\ell-1),\dots,\ell-1,\ell$$
+    </div>
+    <div class="symbols">
+      <span class="box-label">記号の意味</span>
+      <ul>
+        <li>$\hat{\boldsymbol{L}}^2$：角運動量の大きさの2乗を測る演算子（「測定装置」を数式で表現したもの）。</li>
+        <li>$\hat{L}_z$：角運動量の「z軸方向の成分」を測る演算子。</li>
+        <li>$Y(\theta,\phi)$：θ方向の解 $\Theta(\theta)$ とφ方向の解 $\Phi(\phi)$ をかけ合わせて規格化した、
+          角度部分全体の波動関数。これを<strong class="key">球面調和関数</strong>と呼びます。</li>
+        <li>$\hbar$：換算プランク定数。量子力学に現れる最小の作用の単位のようなもの。</li>
+      </ul>
+    </div>
+    <div class="box meaning">
+      <span class="box-label">この結果の物理的な意味</span>
+      電子の軌道角運動量は、勝手な大きさ・勝手な向きを取れるわけではなく、
+      大きさは $\hbar\sqrt{\ell(\ell+1)}$、z軸方向の成分は $\hbar m_\ell$ という<strong class="key">とびとびの値だけ</strong>を取ります。
+      さらに、$m_\ell$ の最大値は $\ell$ なので、角運動量のz成分は角運動量の大きさそのものよりも必ず小さくなります
+      （$L_z$ が $|L|$ ぴったりに一致することはない）。これは、角運動量ベクトルが完全にz軸を向くことはできない、
+      という不確定性原理の現れです（x成分・y成分は同時には確定できません）。
+    </div>
+    <div class="box intuition">
+      <span class="box-label">直感的なイメージ</span>
+      コマが首を振りながら回転している（歳差運動）ところを想像してください。古典力学ではコマの傾き角度は自由に決められますが、
+      量子力学の世界の「電子のコマ」は、決まった<strong>いくつかの傾き角度</strong>でしか首を振ることができません。
+      $\ell$ が「コマの回転の勢いの大きさ」、$m_\ell$ が「そのうちz軸方向にどれだけ傾いているか」を表すラベルだと考えると分かりやすいです。
+      $\ell=1$（p軌道）の場合、z成分は $-\hbar,0,+\hbar$ の3通りしかなく、図で示されたように、決してz軸と完全に一致（真上や真下を向く）することはありません。
+    </div>
+  </div>
+
+  <h3 class="step-title"><span class="num">6</span>球面調和関数の形とプロット</h3>
+  <div class="card">
+    <p>
+      規格化された球面調和関数は次のように表されます。
+    </p>
+    <div class="eqwrap">
+      $$Y_{\ell m}(\theta,\phi)=(-1)^{m}\sqrt{\frac{(2\ell+1)(\ell-m)!}{4\pi(\ell+m)!}}\,P_\ell^{m}(\cos\theta)\,e^{im\phi}\quad(m\ge0)$$
+    </div>
+    <table class="qtab">
+      <tr><th>$\ell$</th><th>軌道名</th><th>形のイメージ</th></tr>
+      <tr><td>0</td><td>s軌道</td><td>方向によらず球対称（単純な丸）</td></tr>
+      <tr><td>1</td><td>p軌道</td><td>上下2つの花びら（ダンベル形）</td></tr>
+      <tr><td>2</td><td>d軌道</td><td>より複雑な多弁の花びら形</td></tr>
+    </table>
+    <div class="box meaning">
+      <span class="box-label">この結果の物理的な意味</span>
+      $|Y_{\ell m}|^2$ を極座標のグラフとして描くと、電子が「どの方向にどれくらい存在しやすいか」の模様（軌道の形）が見えてきます。
+      これはまさに化学の教科書に出てくる s軌道・p軌道・d軌道の形そのものです。$\ell=0$（s軌道）は完全な球対称、
+      $\ell=1$（p軌道）はダンベル型というように、量子数 $\ell,m_\ell$ が変わるごとに電子雲の形がガラリと変わります。
+    </div>
+  </div>
+
+  <div class="exercise">
+    <span class="box-label">演習問題10・11の考え方（要点）</span>
+    Legendre微分方程式の漸化式を実際に $\ell=0,1,2,3$ で解くと、それぞれ定数・$x$・$3x^2/2-1/2$・$5x^3/2-3x/2$
+    という多項式が得られ、これが微分形の公式 $P_\ell(x)=\dfrac{1}{2^\ell \ell!}\dfrac{d^\ell}{dx^\ell}(x^2-1)^\ell$（Rodriguesの公式）
+    と一致することを確認する問題です。「級数を実際に手を動かして解いてみると、後で出てくる美しい公式と同じものになる」という
+    “検算”を通じて理解を深めるのが狙いです。
+  </div>
+
+  <div class="summary-box">
+    <h3>⑥ 第11講の重要ポイントまとめ</h3>
+    <ul>
+      <li>中心力（原子核からの引力のように、距離だけに依存する力）を受ける電子の波動関数は、角度θ・φの部分と距離rの部分に分離できる。</li>
+      <li>角度θの方程式は、$x=\cos\theta$ とおくとLegendreの（陪）微分方程式に帰着する。</li>
+      <li>波動関数が無限大に発散しない（＝物理的に意味を持つ）ためには、級数解が有限項で止まる必要があり、それが量子数 $\ell,m_\ell$ の量子化条件を生む。</li>
+      <li>$\ell=0,1,2,\dots$（方位量子数）、$m_\ell=-\ell,\dots,\ell$（磁気量子数）という、とびとびの値しか許されない。</li>
+      <li>角運動量の大きさは $\hbar\sqrt{\ell(\ell+1)}$、z成分は $\hbar m_\ell$ に量子化され、z成分は常に大きさより小さい（角運動量の向きは完全には確定しない）。</li>
+      <li>角度部分の規格化された解を<strong>球面調和関数</strong> $Y_{\ell m}(\theta,\phi)$ と呼び、これがs・p・d軌道などの「電子雲の形」を決める。</li>
+    </ul>
+  </div>
+
+  <footer class="navf">
+    <span></span>
+    <button onclick="goPage('p12')">次へ：第12講 →</button>
+  </footer>
+</section>
+
+<!-- ======================================================= -->
+<!-- 第12講 -->
+<!-- ======================================================= -->
+<section class="page" id="p12">
+  <div class="lecture-title">
+    <span class="eyebrow">LECTURE 12</span>
+    <h2>動径方程式と水素原子のエネルギー量子化</h2>
+  </div>
+
+  <div class="lead">
+    <h3>① この講義で扱っている「物理的な状況」（数式なし）</h3>
+    <p>
+      第11講では、電子の「向き」の情報（角度θ・φ方向）を調べました。今度は、電子が原子核から
+      <strong class="key">「どれくらいの距離」</strong>にいるかという、動径方向（r方向）の運動を調べます。
+      具体的な例として、原子核（陽子）とその周りをまわる電子からなる<strong class="key">水素原子</strong>を考えます。
+      電子は原子核からのクーロン引力（静電気的な引き寄せる力）によって束縛されており、
+      無限に遠くへ逃げていくことはできません（エネルギーが負＝束縛状態）。
+    </p>
+    <p>
+      この講義のゴールは、「電子が取れる距離方向の波の形」を実際に解いて、
+      その結果として<strong class="key">水素原子のエネルギーがとびとびの値（量子化）</strong>にしかならないことを示すことです。
+      これはボーアが最初に（半ば天下り的に）導入した「電子は特定の軌道しか回れない」という仮定を、
+      シュレディンガー方程式からきちんと導出する、という内容になります。
+    </p>
+  </div>
+
+  <h3 class="step-title"><span class="num">1</span>動径方向の微分方程式</h3>
+  <div class="card">
+    <div class="eqwrap">
+      $$\left[-\frac{\hbar^2}{2mr^2}\frac{d}{dr}r^2\frac{d}{dr}+V(r)+\frac{\hbar^2\ell(\ell+1)}{2mr^2}\right]R(r)=ER(r)$$
+    </div>
+    <div class="symbols">
+      <span class="box-label">記号の意味</span>
+      <ul>
+        <li>$R(r)$：波動関数のうち、距離 $r$ だけに依存する部分。</li>
+        <li>$V(r)$：位置エネルギー（ポテンシャル）。水素原子の場合はクーロン引力による位置エネルギー。</li>
+        <li>$\dfrac{\hbar^2\ell(\ell+1)}{2mr^2}$：<strong>遠心力に相当する見かけの位置エネルギー</strong>。第11講で求めた角運動量の量子数 $\ell$ がここに登場する。</li>
+        <li>$m$：電子の質量、$E$：電子の全エネルギー（負の値になる＝束縛状態）。</li>
+      </ul>
+    </div>
+    <div class="box why">
+      <span class="box-label">なぜ角運動量の項（遠心力項）が出てくるのか</span>
+      角運動量を持って回転している電子は、原子核に近づこうとすると「遠心力」のような効果で押し返されます。
+      これは古典力学で惑星が中心天体に近づきすぎない理由と同じで、量子力学でも動径方向の式の中に
+      $\ell(\ell+1)$ を含む「壁」のような項として現れます。$\ell$ が大きいほど、この壁は高くなります。
+    </div>
+  </div>
+
+  <h3 class="step-title"><span class="num">2</span>標準形への変形 $R(r)=\chi(r)/r$</h3>
+  <div class="card">
+    <div class="eqwrap">
+      $$\chi''(r)-\left(\kappa^2+\frac{2mV}{\hbar^2}+\frac{\ell(\ell+1)}{r^2}\right)\chi(r)=0,\qquad \kappa^2=-\frac{2mE}{\hbar^2}\;(>0)$$
+    </div>
+    <div class="box why">
+      <span class="box-label">なぜこの置き換えをするのか</span>
+      元の式には1階微分の項 $\dfrac{2}{r}R'(r)$ が混じっていて、そのままでは扱いにくい形をしています。
+      $R(r)=\chi(r)/r$ という置き換え（$R=f\chi$ で $f=1/r$ を選ぶ）を行うことで、
+      1階微分の項がきれいに消え、$\chi''+Q\chi=0$ という単純な形（標準形）に整理できます。
+      これは、複雑な微分方程式を扱いやすい形に「化粧直し」するテクニックです。
+      また、$\kappa$ はエネルギー $E$ が負の値（束縛状態）であることを反映して、$\kappa^2>0$ となる実数として定義されています。
+    </div>
+  </div>
+
+  <h3 class="step-title"><span class="num">3</span>両端（$r\to\infty$ と $r\to0$）での振る舞いを先に調べる</h3>
+  <div class="card">
+    <p>いきなり方程式全体を解くのではなく、まず「電子が原子核から非常に遠い場所」と「電子が原子核のすぐそば」という、
+    2つの極端な状況で方程式がどう簡単になるかを調べます。</p>
+    <div class="box why">
+      <span class="box-label">なぜ極限から調べるのか</span>
+      複雑な方程式をいきなり厳密に解くのは大変です。しかし物理的に境界条件（波動関数が満たすべき「端っこでの振る舞い」）が
+      分かっていれば、その条件に合う関数の形をあらかじめ予想でき、それをヒントに全体の解を組み立てることができます。
+      これは「まず簡単な場合で当たりをつけてから、一般の場合に挑む」という物理の定石です。
+    </div>
+    <div class="eqwrap">
+      $$r\to\infty:\quad \chi(r)\sim Ae^{-\kappa r}\qquad\qquad r\to0:\quad \chi(r)\sim Cr^{\ell+1}$$
+    </div>
+    <div class="box meaning">
+      <span class="box-label">この結果の物理的な意味</span>
+      <strong>$r\to\infty$ で $e^{-\kappa r}$（指数関数的に減少）</strong>：電子は束縛されているので、原子核から遠く離れるほど
+      見つかる確率はゼロに近づいていかなければなりません。$e^{+\kappa r}$（発散する解）は確率が無限大になってしまうため、物理的に許されず捨てます。<br>
+      <strong>$r\to0$ で $r^{\ell+1}$（原点でゼロに近づく）</strong>：角運動量 $\ell$ を持つ電子は、遠心力的な壁のせいで原子核の真上（$r=0$）には
+      入り込みにくく、$\ell$ が大きいほど原点付近での存在確率がより急速にゼロへ近づきます。
+    </div>
+  </div>
+
+  <h3 class="step-title"><span class="num">4</span>両端の振る舞いをつなぐ：解の形を予想する</h3>
+  <div class="card">
+    <div class="eqwrap">
+      $$\chi(r)=r^{\ell+1}\left(c_0+c_1 r+c_2 r^2+\cdots\right)e^{-\kappa r}=\underbrace{r^{\ell+1}(c_0+c_1r+\cdots)}_{\tilde{L}(r)}e^{-\kappa r}$$
+    </div>
+    <div class="box why">
+      <span class="box-label">なぜこの形を予想するのか</span>
+      $r\to0$ で $r^{\ell+1}$ に、$r\to\infty$ で $e^{-\kappa r}$ になってほしいので、単純にこの2つを掛け合わせた
+      $r^{\ell+1}e^{-\kappa r}$ を試してみると、両端の条件をどちらも満たすことが確認できます（前ページのグラフの「?」の部分）。
+      ただし、これだけでは方程式の厳密な解にはならないため、真ん中の部分を多項式 $(c_0+c_1r+c_2r^2+\cdots)$ で補正してやります。
+      これは、両端の答えが分かっているときに、間をなめらかに繋ぐ関数を挟み込むという発想です。
+    </div>
+  </div>
+
+  <h3 class="step-title"><span class="num">5</span>漸化式とエネルギーの量子化</h3>
+  <div class="card">
+    <p>
+      $\rho=2\kappa r$ という無次元の変数（単位のない、純粋な数の変数）に置き換えてべき級数展開を行うと、
+      係数の漸化式が得られます。
+    </p>
+    <div class="eqwrap">
+      $$c_{k+1}=c_k\frac{\ell+k+1-n}{(k+1)(2\ell+k+2)},\qquad \left(:=\frac{2n\kappa}{r}\right)$$
+    </div>
+    <div class="box why">
+      <span class="box-label">なぜ級数を止める必要があるのか（第11講と同じ論理）</span>
+      もし級数が無限に続くと、$\tilde{L}(r)e^{-\kappa r}$ 全体が $r\to\infty$ でむしろ発散してしまう（$e^{-\kappa r}$ の減少に級数の増加が勝ってしまう）ことが
+      数学的に示せます。したがって、ある項 $k=k_*$ で係数がゼロになり、級数が多項式として止まる必要があります。
+    </div>
+    <div class="eqwrap">
+      $$\ell+k_*+1-n=0 \;\Longleftrightarrow\; n=\ell+k_*+1,\qquad n=1,2,3,\dots$$
+    </div>
+    <div class="box meaning">
+      <span class="box-label">この結果の物理的な意味：主量子数の誕生</span>
+      級数が止まるための条件から、$n$（$\ell$ と $k_*$ という2つの非負整数の組み合わせ）が
+      <strong class="key">1,2,3,…という正の整数しか取れない</strong>ことが分かりました。この $n$ を<strong class="key">主量子数</strong>と呼びます。
+    </div>
+  </div>
+
+  <h3 class="step-title"><span class="num">6</span>ボーア半径とエネルギー準位</h3>
+  <div class="card">
+    <div class="eqwrap">
+      $$\kappa_n=\frac{e^2m}{4\pi\epsilon_0\hbar^2}\frac{1}{n}=\frac{1}{nr_0},\qquad E_n=-\frac{\hbar^2}{2mr_0^2}\frac{1}{n^2}\simeq-\frac{13.6\ \mathrm{eV}}{n^2}$$
+    </div>
+    <div class="symbols">
+      <span class="box-label">記号の意味</span>
+      <ul>
+        <li>$r_0$：<strong>ボーア半径</strong>。約 $5.29\times10^{-11}\ \mathrm{m}$ で、水素原子のだいたいの大きさを表す長さの単位。</li>
+        <li>$E_n$：主量子数 $n$ に対応するエネルギー準位。負の値は「束縛されている（自由に逃げられない）」ことを意味する。</li>
+        <li>$n=1$（基底状態）のエネルギーは $-13.6\ \mathrm{eV}$。これが水素原子の<strong>束縛エネルギー</strong>（電子を引き剥がすのに必要なエネルギー）。</li>
+      </ul>
+    </div>
+    <div class="box meaning">
+      <span class="box-label">この結果の物理的な意味</span>
+      水素原子中の電子は、連続的な好きなエネルギーを取れるのではなく、$E_n=-13.6\,\mathrm{eV}/n^2$（$n=1,2,3,\dots$）という
+      <strong class="key">とびとびのエネルギー準位</strong>しか取れません。$n$ が大きくなるほどエネルギーは0（電子が原子から離れて自由になる境目）に近づいていきます。
+      この式は、ボーアが仮説として最初に導入した水素原子のエネルギー準位の式と完全に一致しており、
+      シュレディンガー方程式から量子化が自然に導かれることを示しています。
+    </div>
+  </div>
+
+  <h3 class="step-title"><span class="num">7</span>主量子数 $n$ と方位量子数 $\ell$ の関係、縮退</h3>
+  <div class="card">
+    <p>$n=\ell+k_*+1$（$k_*=0,1,2,\dots$）という関係から、固定した $n$ に対して $\ell$ は $0,1,\dots,n-1$ の $n$ 通りの値を取れます。</p>
+    <table class="qtab">
+      <tr><th>$n$</th><th>取れる $\ell$</th><th>軌道の名前</th><th>状態数（縮退度）</th></tr>
+      <tr><td>1</td><td>0</td><td>1s</td><td>1</td></tr>
+      <tr><td>2</td><td>0,1</td><td>2s, 2p</td><td>1+3=4</td></tr>
+      <tr><td>3</td><td>0,1,2</td><td>3s, 3p, 3d</td><td>1+3+5=9</td></tr>
+      <tr><td>n</td><td>0,…,n-1</td><td>…</td><td>$n^2$</td></tr>
+    </table>
+    <div class="box meaning">
+      <span class="box-label">この結果の物理的な意味（縮退）</span>
+      エネルギー $E_n$ は主量子数 $n$ だけで決まり、$\ell$ や $m_\ell$ には依存しません。そのため、同じ $n$ を持つが
+      $\ell,m_\ell$ が異なる状態は、すべて同じエネルギーを持ちます。これを<strong class="key">縮退</strong>（degeneracy）と呼び、
+      1つの $n$ に対して合計 $n^2$ 個の異なる状態（軌道）が同じエネルギーを共有しています。
+    </div>
+  </div>
+
+  <h3 class="step-title"><span class="num">8</span>規格化された動径波動関数と電子の存在確率分布</h3>
+  <div class="card">
+    <div class="eqwrap">
+      $$R_{n\ell}(r)=\frac{1}{\sqrt{r_0 N_{n\ell}}}\left(\frac{2}{nr_0}\right)^{\ell+1}e^{-r/nr_0}\,r^\ell\,L_{n+\ell}^{2\ell+1}\left(\frac{2r}{nr_0}\right)$$
+    </div>
+    <div class="symbols">
+      <span class="box-label">記号の意味</span>
+      <ul>
+        <li>$L_{n+\ell}^{2\ell+1}(\rho)$：<strong>Laguerreの陪多項式</strong>と呼ばれる特殊な多項式（真ん中をつなぐ関数の正体）。Legendre多項式と似た仲間の特殊関数。</li>
+        <li>$N_{n\ell}$：規格化定数を決めるための積分結果（波動関数全体の確率の合計を1にするための係数）。</li>
+      </ul>
+    </div>
+    <div class="box why">
+      <span class="box-label">なぜ規格化が必要なのか</span>
+      波動関数の絶対値の2乗は「電子がその場所に見つかる確率密度」を表します。3次元空間全体を積分したとき、
+      電子がどこかには必ず1つだけ存在するはずなので、確率の合計はちょうど1にならなければなりません。
+      この条件（規格化条件）から、波動関数の頭に掛かる定数（係数）が一意に決まります。
+    </div>
+    <div class="box meaning">
+      <span class="box-label">存在確率分布 $r^2|R(r)|^2$ のグラフが示すこと</span>
+      $(n,\ell)=(1,0)$（基底状態）では、電子はボーア半径 $r_0$ のあたりに最も見つかりやすいピークを持ちます。
+      $n$ が大きくなる（$(2,0)$、$(3,0)$）につれてピークの位置は原子核からどんどん遠くなり、電子の「広がり」も大きくなります。
+      これは、エネルギーが高い（$n$が大きい）状態ほど、電子が原子核から遠くまで広がって存在しやすいことを示しています。
+    </div>
+    <div class="box intuition">
+      <span class="box-label">直感的なイメージ</span>
+      動径方向の量子化のしくみは、実は「弦を固定端で振動させる」問題や「箱の中の粒子」の量子化と本質的に同じです。
+      両端（$r=0$ と $r=\infty$）で波動関数が発散しないという「境界条件」を課すと、その条件を満たせる波の形が
+      とびとびにしか存在しない、というのが量子化の正体です。指数関数的減衰と多項式のバランスが、
+      ちょうど良いところでしか釣り合わない、というイメージを持つと理解しやすいでしょう。
+    </div>
+  </div>
+
+  <div class="exercise">
+    <span class="box-label">演習問題11の考え方（要点）</span>
+    (a)(b) は、動径方向で得られた微分方程式が、Laguerreの陪微分方程式（Rodriguesの公式で解が書ける有名な方程式）と
+    同じ形であることを確認し、指数 $a,b$ が $(\ell,n)$ とどう対応するかを見る問題です。
+    (3) は $r_0=4\pi\epsilon_0\hbar^2/(e^2m)\approx5.29\times10^{-11}\,\mathrm{m}$、
+    $E_1=-\hbar^2/(2mr_0^2)\approx-13.6\,\mathrm{eV}$ を実際に数値で計算し、
+    講義で述べた「水素原子の典型的な大きさ・エネルギー」を自分の手で確かめる問題です。
+  </div>
+
+  <div class="summary-box">
+    <h3>⑥ 第12講の重要ポイントまとめ</h3>
+    <ul>
+      <li>動径方向（距離 r 方向）の方程式には、角運動量に由来する「遠心力のような壁」の項が含まれる。</li>
+      <li>$R(r)=\chi(r)/r$ という置き換えで、方程式を扱いやすい標準形に変形できる。</li>
+      <li>$r\to\infty$ では $e^{-\kappa r}$（確率がゼロに収束）、$r\to0$ では $r^{\ell+1}$（原子核付近を避ける）という境界条件が課される。</li>
+      <li>両端をつなぐ多項式部分のべき級数が有限項で止まる条件から、<strong>主量子数 $n=1,2,3,\dots$</strong> が量子化される。</li>
+      <li>水素原子のエネルギーは $E_n=-13.6\,\mathrm{eV}/n^2$ ととびとびの値になり、基底状態（$n=1$）の束縛エネルギーは $-13.6\,\mathrm{eV}$。</li>
+      <li>固定した $n$ に対し $\ell=0,\dots,n-1$ が許され、同じ $n$ を持つ状態は同じエネルギー（$n^2$ 重に縮退）を持つ。</li>
+      <li>動径波動関数は Laguerre の陪多項式を使って表され、その2乗（$r^2|R(r)|^2$）が電子の距離方向の存在確率を与える。</li>
+    </ul>
+  </div>
+
+  <footer class="navf">
+    <button onclick="goPage('p11')">← 前へ：第11講</button>
+    <button onclick="goPage('p13')">次へ：第13講 →</button>
+  </footer>
+</section>
+
+<!-- ======================================================= -->
+<!-- 第13講 -->
+<!-- ======================================================= -->
+<section class="page" id="p13">
+  <div class="lecture-title">
+    <span class="eyebrow">LECTURE 13</span>
+    <h2>非束縛状態・確率の流れ・トンネル効果</h2>
+  </div>
+
+  <div class="lead">
+    <h3>① この講義で扱っている「物理的な状況」（数式なし）</h3>
+    <p>
+      第11・12講では、電子が原子核に「束縛」されて逃げられない状況（水素原子）を扱いました。
+      今回は逆に、電子が無限遠まで自由に飛んでいける、<strong class="key">「束縛されていない（非束縛）」状況</strong>を考えます。
+      たとえば、電子ビームを発生させて、ある領域に障害物（ポテンシャル障壁）を置いたときに、電子がどうなるかを調べます。
+    </p>
+    <p>
+      日常の直感（古典力学）では、ボールを壁に向かって転がした場合、ボールのエネルギーが壁の高さより高ければ必ず乗り越え、
+      低ければ必ず跳ね返されます。しかし、電子のような量子力学的な粒子では話が違います。
+      エネルギーが壁より低くても、ある確率で<strong class="key">壁をすり抜けてしまう</strong>という、
+      驚くべき現象（<strong class="key">トンネル効果</strong>）が起こります。この講義では、その仕組みを数式で確かめます。
+    </p>
+  </div>
+
+  <h3 class="step-title"><span class="num">1</span>非束縛状態：一様なポテンシャルの中の電子</h3>
+  <div class="card">
+    <div class="eqwrap">
+      $$u(x)=Ae^{ikx}+Be^{-ikx},\qquad k^2=\frac{2m(E-V_0)}{\hbar^2}$$
+    </div>
+    <div class="box why">
+      <span class="box-label">なぜこの解の形になるのか</span>
+      束縛状態（水素原子）とは異なり、ここでは電子が無限遠まで到達できます。ポテンシャルが一定値 $V_0$（坂のように一様に高さが変わらない領域）
+      であれば、シュレディンガー方程式は単純な三角関数・指数関数の解を持ち、それは「右向きに進む波」$e^{ikx}$ と
+      「左向きに進む波」$e^{-ikx}$ の重ね合わせとして書けます。
+    </div>
+    <div class="box meaning">
+      <span class="box-label">この結果の物理的な意味</span>
+      束縛状態とは違い、エネルギー $E$ はとびとびの値に制限されず、<strong class="key">連続的にどんな値でも取れます</strong>。
+      また、波動関数は無限遠まで振動し続け、ゼロに収束しないため、これまで使ってきた「全空間で積分して1にする」という
+      通常の規格化ができません（→この問題は第14講の「デルタ関数規格化」で解決します）。
+    </div>
+  </div>
+
+  <h3 class="step-title"><span class="num">2</span>確率の流れの密度（連続の式）</h3>
+  <div class="card">
+    <div class="eqwrap">
+      $$\frac{\partial\rho}{\partial t}+\nabla\cdot\boldsymbol{j}=0,\qquad
+      \boldsymbol{j}=\frac{i\hbar}{2m}\left[(\nabla\psi^*)\psi-\psi^*(\nabla\psi)\right]$$
+    </div>
+    <div class="box why">
+      <span class="box-label">なぜこの量を導入するのか</span>
+      非束縛状態では波動関数を通常の方法で規格化できないため、「電子がある場所に存在する確率そのもの」の代わりに、
+      <strong class="key">「確率がどれだけの勢いでどちらに流れているか」</strong>という量（確率の流れの密度 $\boldsymbol{j}$）に注目します。
+      これは、水の量そのものを測るのが難しいときに、「川の流量（1秒あたりに流れる水の量）」を測るようなイメージです。
+      シュレディンガー方程式を使って確率密度 $\rho=|\psi|^2$ の時間変化を計算すると、電磁気学の電荷保存則と同じ形の
+      「連続の式」が導けます。
+    </div>
+    <div class="symbols">
+      <span class="box-label">記号の意味</span>
+      <ul>
+        <li>$\rho=|\psi|^2$：確率密度（電子がその場所に存在する確率の密度）。</li>
+        <li>$\boldsymbol{j}$：確率の流れの密度（確率がどの方向にどれだけの勢いで移動しているか）。</li>
+        <li>$\nabla\cdot$：発散（湧き出し・吸い込みの度合いを測る演算）。</li>
+      </ul>
+    </div>
+    <div class="box meaning">
+      <span class="box-label">この結果の物理的な意味</span>
+      「連続の式」は、確率が勝手に生まれたり消えたりせず、必ずどこかから流れ込んだり流れ出したりすることで
+      増減する、ということを表しています（<strong class="key">確率の保存則</strong>）。これをある空間領域で積分すると、
+      その領域内で粒子が見つかる確率の時間変化は、境界を通って出入りする確率の流れに等しいことが分かります。
+    </div>
+  </div>
+
+  <h3 class="step-title"><span class="num">3</span>ポテンシャル障壁を設定する</h3>
+  <div class="card">
+    <div class="eqwrap">
+      $$V(x)=\begin{cases}V_0 & (|x|\le a)\\ 0 & (|x|>a)\end{cases}$$
+    </div>
+    <p>左側からエネルギー $E$（$E<V_0$）を持つ電子波を打ち込んだとき、何が起こるかを調べます。古典力学では
+    $E<V_0$ なら電子は必ず跳ね返されるはずです。</p>
+    <div class="box why">
+      <span class="box-label">なぜ領域を3つに分けて解くのか</span>
+      障壁の左側（領域1）・障壁の内部（領域2）・障壁の右側（領域3）で、それぞれポテンシャルの値が異なるため、
+      シュレディンガー方程式の形も異なります。各領域ごとに一般解を求め、領域の境目（$x=\pm a$）で
+      波動関数とその微分が滑らかにつながる（連続である）という条件を課すことで、全体を1つのつながった波として組み立てます。
+    </div>
+    <div class="eqwrap">
+      $$\text{領域1: } u=A_1e^{ikx}+A_2e^{-ikx}\quad
+      \text{領域2: } u=B_1e^{\kappa x}+B_2e^{-\kappa x}\quad
+      \text{領域3: } u=Ce^{ikx}$$
+    </div>
+    <div class="symbols">
+      <span class="box-label">記号の意味</span>
+      <ul>
+        <li>$A_1$：左から入射してくる波（入射波）の振幅。</li>
+        <li>$A_2$：障壁に跳ね返されて左に戻っていく波（反射波）の振幅。</li>
+        <li>$B_1,B_2$：障壁内部でのしみ出し方（指数関数的に増加・減少する成分）を表す係数。</li>
+        <li>$C$：障壁を通り抜けて右側に進む波（透過波）の振幅。</li>
+        <li>$\kappa=\sqrt{2m(V_0-E)/\hbar^2}$：障壁内部での波の「減衰の速さ」を決める量（実数）。</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3 class="step-title"><span class="num">4</span>「壁の中で運動エネルギーが負になる」謎</h3>
+  <div class="card">
+    <p>
+      壁の内部では波動関数が振動せずに指数関数的に減衰する形をしています。これは古典力学の言葉で言うと、
+      「運動エネルギー $K=E-V_0$ が負になっている」ことに対応しますが、負の運動エネルギーというのは古典力学ではあり得ません。
+    </p>
+    <div class="box meaning">
+      <span class="box-label">この“矛盾”の物理的な解釈</span>
+      これは矛盾ではありません。壁の内部にいる電子の波動関数は、運動量が確定した状態（波数がはっきり決まった単純な波）
+      にはなっておらず、指数関数的に減衰する形をしています。<strong class="key">不確定性原理</strong>により、
+      位置がある程度狭い範囲に制限される（壁の中に押し込められる）と、運動量は逆に確定しなくなります。
+      「$K<0$」というのは、1個の電子が本当に負の運動エネルギーを持って運動しているという意味ではなく、
+      単に波動関数が壁の中で指数関数的に抑えられている（弱められている）ことを表す数学的な結果にすぎません。
+    </div>
+  </div>
+
+  <h3 class="step-title"><span class="num">5</span>透過率と反射率</h3>
+  <div class="card">
+    <div class="eqwrap">
+      $$j_I=\frac{\hbar k}{m}|A_1|^2,\quad j_R=\frac{\hbar k}{m}|A_2|^2,\quad j_T=\frac{\hbar k}{m}|C|^2$$
+      $$T=\frac{j_T}{j_I}=\frac{4k^2\kappa^2}{4k^2\kappa^2+(k^2+\kappa^2)^2\sinh^2 2\kappa a},\qquad R=\frac{j_R}{j_I}=1-T$$
+    </div>
+    <div class="symbols">
+      <span class="box-label">記号の意味</span>
+      <ul>
+        <li>$j_I,j_R,j_T$：それぞれ入射波・反射波・透過波の確率の流れの密度（前ステップで定義した $j$ を各波に適用したもの）。</li>
+        <li>$T$：<strong>透過率</strong>。入射した電子のうち、壁を通り抜ける割合。</li>
+        <li>$R$：<strong>反射率</strong>。入射した電子のうち、跳ね返される割合。</li>
+      </ul>
+    </div>
+    <div class="box meaning">
+      <span class="box-label">この結果の物理的な意味：トンネル効果</span>
+      $T+R=1$ が成り立ち、確率がきちんと保存されていることが確認できます。そして重要なのは、
+      $E<V_0$（古典力学なら必ず跳ね返される状況）であっても<strong class="key">$T$ はゼロにならない</strong>ということです。
+      つまり、電子は一定の確率で「本来は超えられないはずの壁」をすり抜けてしまいます。これが<strong class="key">トンネル効果</strong>です。
+    </div>
+    <div class="box intuition">
+      <span class="box-label">直感的なイメージ</span>
+      光がガラスなどの物質の境界で一部反射し一部透過するのと同じように、電子の波も障壁の境界で一部が反射し、
+      一部がしみ込んでいきます。壁の中では波は指数関数的に弱まっていきますが、壁の厚みが有限であれば、
+      完全にゼロになる前に反対側に到達し、そこから再び振動する波として再出発できます。
+      「波はゼロになる前に壁を抜けられれば、確率は残っている」というイメージです。
+    </div>
+  </div>
+
+  <h3 class="step-title"><span class="num">6</span>極限での振る舞い：壁が厚い場合</h3>
+  <div class="card">
+    <div class="eqwrap">
+      $$2\kappa a\gg1 \; \text{のとき}\quad T\simeq\frac{16k^2\kappa^2}{(k^2+\kappa^2)^2}e^{-4\kappa a}$$
+    </div>
+    <div class="box meaning">
+      <span class="box-label">この結果の物理的な意味</span>
+      壁が厚い（$a$ が大きい）、あるいは電子のエネルギー $E$ が壁の高さ $V_0$ に比べてずっと小さいと、
+      透過率は<strong class="key">指数関数的に急激に小さく</strong>なります。つまり、壁が厚くなればなるほど、
+      あるいはエネルギーが不足するほど、トンネル効果は急速に起こりにくくなります。これは直感（分厚い壁ほど通り抜けにくい）とも一致します。
+    </div>
+  </div>
+
+  <h3 class="step-title"><span class="num">7</span>$E\ge V_0$ の場合：Ramsauer-Townsend効果</h3>
+  <div class="card">
+    <div class="eqwrap">
+      $$T=\frac{4k^2q^2}{4k^2q^2+(k^2-q^2)^2\sin^2(2qa)},\qquad R=\frac{(k^2-q^2)^2\sin^2(2qa)}{4k^2q^2+(k^2-q^2)^2\sin^2(2qa)}$$
+    </div>
+    <div class="box why">
+      <span class="box-label">なぜこの計算をするのか</span>
+      $E\ge V_0$（電子のエネルギーが障壁より高い）の場合、$\kappa$ は虚数になります（$\kappa=iq$、$q$は実数）。
+      前ステップの式にそのまま代入すると、$\sinh$（双曲線関数）が $\sin$（三角関数）に変わり、上のような振動する形の式が得られます。
+    </div>
+    <div class="box meaning">
+      <span class="box-label">この結果の物理的な意味</span>
+      古典力学では $E\ge V_0$ なら必ず（100%）壁を通り抜けるはずですが、量子力学では反射率 $R$ はゼロではなく、
+      電子のエネルギーに応じて変動します。特に $2a=n\pi/q$（$n$は整数）を満たす特別なエネルギーでは
+      <strong class="key">$R=0$（完全な透過）</strong>になります。これは<strong class="key">Ramsauer-Townsend効果</strong>と呼ばれる、
+      実験的にも観測されている現象です（透過率のグラフで、壁が厚いほどこの振動がエネルギーの高いところにずれて現れます）。
+    </div>
+  </div>
+
+  <h3 class="step-title"><span class="num">8</span>トンネル効果の応用</h3>
+  <div class="card">
+    <div class="box meaning">
+      <span class="box-label">現実世界への応用</span>
+      <strong>江崎（トンネル）ダイオード</strong>：トンネル効果によって、通常の半導体素子よりも低い電圧で電流が流れる素子です。
+      電圧を上げると逆に電流が減る「負性抵抗」という特殊な性質を持ち、高速なスイッチング回路などに利用されます。<br>
+      <strong>走査型トンネル顕微鏡（STM）</strong>：非常に鋭い針を試料の表面に近づけると、その隙間の「真空の壁」を電子がトンネル効果で通り抜け、
+      微小なトンネル電流が流れます。この電流の大きさが針と試料の距離に極めて敏感であることを利用し、
+      原子1個1個のレベル（0.1nm程度）で表面の凹凸を「見る」ことができます。
+    </div>
+  </div>
+
+  <div class="exercise">
+    <span class="box-label">演習問題12の考え方（要点）</span>
+    4つの境界条件（$x=\pm a$ で $u(x)$ とその微分 $u'(x)$ が連続であること）から4本の連立方程式が得られます。
+    未知数は $A_1,A_2,B_1,B_2,C$ の5つですが方程式は4本しかないため、$C$ を基準にして残りの4つを表す、という
+    線形代数の問題として解くのがこの演習の要点です。
+  </div>
+
+  <div class="summary-box">
+    <h3>⑥ 第13講の重要ポイントまとめ</h3>
+    <ul>
+      <li>電子が無限遠まで到達できる「非束縛状態」では、エネルギーはとびとびではなく連続的な値を取る。</li>
+      <li>波動関数は無限遠でゼロにならないため、通常の方法では規格化できず、「確率の流れの密度 $j$」を用いて粒子の振る舞いを議論する。</li>
+      <li>連続の式 $\partial\rho/\partial t+\nabla\cdot\boldsymbol{j}=0$ は、確率が保存されること（勝手に生成・消滅しないこと）を表す。</li>
+      <li>ポテンシャル障壁（$E<V_0$）に対して、古典力学では反射100%のはずが、量子力学では透過率 $T$ がゼロにならない（<strong>トンネル効果</strong>）。</li>
+      <li>壁が厚くなる・エネルギーが不足するほど、トンネル効果は指数関数的に急激に抑制される。</li>
+      <li>$E\ge V_0$ でも量子力学的な反射は起こりうり、特定のエネルギーで完全透過となる Ramsauer-Townsend 効果が存在する。</li>
+      <li>トンネル効果は、トンネルダイオードや走査型トンネル顕微鏡など、現実の技術に応用されている。</li>
+    </ul>
+  </div>
+
+  <footer class="navf">
+    <button onclick="goPage('p12')">← 前へ：第12講</button>
+    <button onclick="goPage('p14')">次へ：第14講 →</button>
+  </footer>
+</section>
+
+<!-- ======================================================= -->
+<!-- 第14講 -->
+<!-- ======================================================= -->
+<section class="page" id="p14">
+  <div class="lecture-title">
+    <span class="eyebrow">LECTURE 14</span>
+    <h2>デルタ関数規格化と波束（Gauss波束）</h2>
+  </div>
+
+  <div class="lead">
+    <h3>① この講義で扱っている「物理的な状況」（数式なし）</h3>
+    <p>
+      第13講で見たように、非束縛状態の波動関数（$u_k(x)=A_ke^{ikx}$ のような、無限に広がる単純な波）は、
+      空間全体で積分しても確率の合計が有限にならず、通常の方法では規格化（確率の合計を1にすること）ができませんでした。
+      この講義では、まずこの問題を数学的な道具である<strong class="key">「デルタ関数」</strong>を使って形式的に解決する方法を学びます。
+    </p>
+    <p>
+      しかし、現実に観測される電子は、教科書的な「無限に広がる完全な波」ではなく、
+      <strong class="key">ある程度の場所に局在した「かたまり」</strong>として観測されます（たとえば、電子顕微鏡で見る1個の電子は、
+      どこか特定の場所付近から検出されます）。このような、局在した波のかたまりを<strong class="key">「波束」</strong>と呼びます。
+      波束は、いろいろな運動量（波数）を持つ単純な波を、たくさん重ね合わせることで作ることができます。
+      この講義の後半では、波束の代表例である<strong class="key">Gauss型波束</strong>を使って、
+      「位置」と「運動量」を同時にどれだけ正確に決められるか（不確定性原理）を具体的に確認します。
+    </p>
+  </div>
+
+  <h3 class="step-title"><span class="num">1</span>Diracのデルタ関数とは何か</h3>
+  <div class="card">
+    <div class="eqwrap">
+      $$\delta(x)=\begin{cases}0 & x\neq0\\ \infty & x=0\end{cases}
+      \qquad\text{ただし}\qquad \int_{-\infty}^{\infty}dx\,\delta(x)=1$$
+    </div>
+    <div class="box why">
+      <span class="box-label">なぜこのような「関数」を考えるのか</span>
+      $x=0$ の一点だけで無限大の高さを持ち、それ以外ではゼロという関数は、通常の意味では「関数」とは呼べません（数学的には超関数と呼ばれます）。
+      これは、「幅 $\varepsilon$、高さ $1/\varepsilon$ の細long四角形（面積は常に1）」を用意し、幅 $\varepsilon$ をどんどんゼロに近づけていく極限として理解すると分かりやすいです。
+      幅がゼロになる代わりに高さが無限大になり、囲む面積（積分）はずっと1のまま保たれます。
+    </div>
+    <div class="box intuition">
+      <span class="box-label">直感的なイメージ</span>
+      デルタ関数は「その点だけを鋭くピンポイントで拾い出す道具」だと考えてください。
+      $\int f(x)\delta(x)dx=f(0)$ という性質は、「デルタ関数を掛けて積分すると、$x=0$ での関数の値だけを取り出せる」ことを意味します。
+      いわば「無限に細いピンセットで、関数のある一点の値だけをつまみ出す」ようなイメージです。
+    </div>
+  </div>
+
+  <h3 class="step-title"><span class="num">2</span>デルタ関数の積分表示とデルタ関数規格化</h3>
+  <div class="card">
+    <div class="eqwrap">
+      $$\frac{1}{2\pi}\int_{-\infty}^{\infty}dx\,e^{ikx}=\delta(k)$$
+    </div>
+    <div class="box why">
+      <span class="box-label">なぜこの表示が便利なのか</span>
+      $\sin(ax)/(\pi x)$ という関数は、$a\to\infty$ の極限でデルタ関数のように振る舞うことが示せます。
+      この事実を使うと、平面波 $e^{ikx}$ を掛けて積分した式がデルタ関数で書けることが分かります。
+      これにより、波数 $k$ を持つ波動関数 $u_k(x)=A_ke^{ikx}$ 同士の「重なり具合」を計算すると、
+      $k=k'$（同じ波数）のときだけ無限大に発散し、$k\neq k'$（違う波数）のときは完全にゼロになる、という結果が得られます。
+    </div>
+    <div class="eqwrap">
+      $$A_k=(2\pi)^{-1/2}\;\text{とすれば}\qquad\int_{-\infty}^{\infty}dx\,u_{k'}^*u_k=\delta(k-k')$$
+    </div>
+    <div class="box meaning">
+      <span class="box-label">この結果の物理的な意味</span>
+      束縛状態では $\int u_n^*u_m\,dx=\delta_{nm}$（同じ状態なら1、違う状態なら0）という規格化が使えましたが、
+      非束縛状態ではこの「1」の代わりに無限大に発散するデルタ関数 $\delta(k-k')$ が現れます。
+      これは、無限に精度良く波数（運動量）を測定しようとすると、逆に電子の位置がどこにあるか全く分からなくなる
+      （位置の不確定性が無限大になる）ことに対応しています。現実の電子はいろいろな波数が混ざった「波束」として観測されるため、
+      このデルタ関数規格化はあくまで数学的・形式的な取り扱いだと考えればよい、とされています。
+    </div>
+  </div>
+
+  <h3 class="step-title"><span class="num">3</span>波束とFourier変換</h3>
+  <div class="card">
+    <div class="eqwrap">
+      $$u(x)=\frac{1}{\sqrt{2\pi}}\int_{-\infty}^{\infty}dk\,\hat{u}(k)e^{ikx}$$
+    </div>
+    <div class="box why">
+      <span class="box-label">なぜこの重ね合わせを考えるのか</span>
+      1つの波数 $k$ だけを持つ波は空間全体に無限に広がっていて、局在した「粒子」らしさがまったくありません。
+      そこで、いろいろな波数 $k$ を持つ波を、重み $\hat{u}(k)$ をつけてたくさん足し合わせる（重ね合わせる）ことで、
+      ある場所に集中した波のかたまり（波束）を作ることができます。
+    </div>
+    <div class="symbols">
+      <span class="box-label">記号の意味</span>
+      <ul>
+        <li>$\hat{u}(k)$：波数 $k$ の成分をどれだけの重みで混ぜ合わせるかを表す関数（「波数空間での波動関数」）。</li>
+        <li>この $u(x)$ と $\hat{u}(k)$ の変換を<strong class="key">Fourier変換</strong>と呼ぶ。</li>
+      </ul>
+    </div>
+    <div class="box intuition">
+      <span class="box-label">直感的なイメージ</span>
+      これは音楽のイメージに近いです。1つの純粋な「ラの音」（単一周波数の音）は時間的にどこまでも続く単調な音ですが、
+      いろいろな周波数の音を重ね合わせる（和音や倍音を混ぜる）と、短く鋭い「パチッ」という音（時間的に局在した音）を作ることができます。
+      同じように、いろいろな波数を持つ波を混ぜ合わせることで、空間的に局在した波束が作れるのです。
+    </div>
+  </div>
+
+  <h3 class="step-title"><span class="num">4</span>Gauss型波束（最小波束）</h3>
+  <div class="card">
+    <div class="eqwrap">
+      $$\hat{u}(k)=A\exp\left[-\frac{(k-k_0)^2}{2\sigma^2}\right]$$
+    </div>
+    <div class="box why">
+      <span class="box-label">なぜGauss関数を選ぶのか</span>
+      重ね合わせる波数の重み $\hat{u}(k)$ として、$k_0$ を中心にした釣鐘型（Gauss関数）を選びます。
+      Gauss関数は数学的に扱いやすい（積分が簡単にできる）だけでなく、後で見るように「位置と運動量の不確定性の積が
+      理論的に許される最小値になる」という特別な性質を持つため、量子力学の教育的な例としてよく使われます。
+    </div>
+    <div class="symbols">
+      <span class="box-label">記号の意味</span>
+      <ul>
+        <li>$k_0$：波束の中心となる波数（≒平均的な運動量に対応）。</li>
+        <li>$\sigma$：波数の広がり具合（波数分布の幅）。$\sigma$ が小さいほど波数は $k_0$ 付近に鋭く集中する。</li>
+        <li>$A$：規格化条件（確率の合計を1にする）から決まる係数。</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3 class="step-title"><span class="num">5</span>時間発展する波束と確率密度</h3>
+  <div class="card">
+    <div class="eqwrap">
+      $$|\psi(x,t)|^2=\frac{1}{\sqrt{\pi}\sigma_x(t)}\exp\left[-\left(\frac{x-vt}{\sigma_x(t)}\right)^2\right],
+      \qquad v=\frac{\hbar k_0}{m},\qquad \sigma_x(t)=\frac{\sqrt{1+\frac{\hbar^2\sigma^4}{m^2}t^2}}{\sigma}$$
+    </div>
+    <div class="box why">
+      <span class="box-label">なぜこの計算をするのか</span>
+      各波数成分 $e^{ikx}$ は時間とともに $e^{-i\omega t}$（$\omega=\hbar k^2/2m$）という位相を持って振動します。
+      波数によって振動の速さ（$\omega$）が異なるため、時間が経つにつれて波束を構成する各成分の位相がバラバラにずれていき、
+      波束全体の形が変化していきます。この計算をGauss積分を使って実行すると、上のような比較的シンプルな結果にまとまります。
+    </div>
+    <div class="box meaning">
+      <span class="box-label">この結果の物理的な意味</span>
+      確率密度は、ピークの位置が速度 $v=\hbar k_0/m$（＝「群速度」、平均的な運動量に対応する古典的な速度）で
+      移動していく、幅 $\sigma_x(t)$ を持つ釣鐘型の分布になります。重要なのは、<strong class="key">時間が経つにつれて $\sigma_x(t)$ が大きくなっていく</strong>、
+      つまり波束が時間とともにだんだん広がっていく（ぼやけていく）ことです。これは、波束が完全に固定された「粒」ではなく、
+      波としての性質（分散）を本質的に持っていることを示しています。
+    </div>
+  </div>
+
+  <h3 class="step-title"><span class="num">6</span>位置と運動量の期待値・分散</h3>
+  <div class="card">
+    <div class="eqwrap">
+      $$\langle x\rangle=vt,\qquad \langle p\rangle=\hbar k_0,\qquad
+      \Delta x=\frac{1}{\sqrt2\sigma}\left(1+\frac{\hbar^2\sigma^4}{m^2}t^2\right)^{-1/2},\qquad \Delta p=\frac{\hbar\sigma}{\sqrt2}$$
+    </div>
+    <div class="symbols">
+      <span class="box-label">記号の意味</span>
+      <ul>
+        <li>$\langle x\rangle,\langle p\rangle$：位置・運動量の期待値（測定を何度も繰り返したときの平均値）。</li>
+        <li>$\Delta x,\Delta p$：位置・運動量の標準偏差（分散の平方根）。測定値がどれだけばらつくかの目安。</li>
+      </ul>
+    </div>
+    <div class="box meaning">
+      <span class="box-label">この結果の物理的な意味</span>
+      位置の期待値は時刻 $t$ において $vt$ の位置にあり、これはまさに古典力学的な「速度 $v$ で等速直線運動する粒子」の位置と一致します。
+      運動量の期待値は $\hbar k_0$（波束の中心波数に対応）で、時間が経っても変化しません（自由粒子は力を受けないので運動量保存）。
+    </div>
+  </div>
+
+  <h3 class="step-title"><span class="num">7</span>不確定性原理のチェック</h3>
+  <div class="card">
+    <div class="eqwrap">
+      $$\Delta x\,\Delta p=\frac{\hbar}{2}\left(1+\frac{\hbar^2\sigma^4}{m^2}t^2\right)^{-1/2}\;\left(\ge\frac{\hbar}{2}\right)$$
+    </div>
+    <div class="box why">
+      <span class="box-label">なぜこの積を計算するのか</span>
+      ハイゼンベルクの不確定性原理は「位置と運動量を同時にどれだけ正確に決められるか」に下限があることを主張します
+      （$\Delta x\,\Delta p\ge\hbar/2$）。今回作ったGauss型波束で実際にこの積を計算し、理論上の下限が本当に成り立っているかを確認します。
+    </div>
+    <div class="box meaning">
+      <span class="box-label">この結果の物理的な意味</span>
+      式を見ると、$\Delta x\,\Delta p$ は常に $\hbar/2$ 以上になっており、不確定性原理が確かに満たされています。
+      さらに、時刻 $t=0$ のとき（波束を作った瞬間）にちょうど<strong class="key">$\Delta x\,\Delta p=\hbar/2$（不確定性が最小）</strong>となります。
+      これが、Gauss型波束が「<strong class="key">最小波束</strong>」と呼ばれる理由です。時間が経つにつれて波束が広がる（$\Delta x$ が増える）ため、
+      積 $\Delta x\,\Delta p$ は $t=0$ から時間が経つほど大きくなっていきます。
+    </div>
+    <div class="box intuition">
+      <span class="box-label">直感的なイメージ</span>
+      風船を思い浮かべてください。$t=0$ の瞬間、波束は「位置と運動量の不確かさのバランスが理論上もっともきつく絞られた」
+      状態にあります。しかし時間が経つと、まるで風船の空気が抜けて広がっていくように、波束はだんだんぼやけて広がっていきます。
+      これは、いろいろな運動量成分（波数）を持つ波が、時間とともにそれぞれ違う速さで進んでいくために、
+      波束全体がバラバラに広がっていってしまうためです。
+    </div>
+  </div>
+
+  <div class="summary-box">
+    <h3>⑥ 第14講の重要ポイントまとめ</h3>
+    <ul>
+      <li>非束縛系の波動関数（平面波）は通常の方法で規格化できないため、Diracのデルタ関数を使った「デルタ関数規格化」を用いる。</li>
+      <li>デルタ関数 $\delta(x)$ は、幅ゼロ・高さ無限大でありながら積分すると1になる、極限として定義される超関数である。</li>
+      <li>現実の電子は、いろいろな波数（運動量）を持つ平面波を重ね合わせた「波束」として観測される（Fourier変換）。</li>
+      <li>Gauss型の重みを持つ波束は、$t=0$ において位置と運動量の不確定性の積が理論的な最小値 $\hbar/2$ を取る「最小波束」である。</li>
+      <li>波束の中心（期待値）は古典的な速度 $v=\hbar k_0/m$ で移動するが、波束の幅は時間とともに広がっていく（波の分散）。</li>
+      <li>不確定性原理 $\Delta x\,\Delta p\ge\hbar/2$ は、波束の考え方から自然に、かつ具体的な数式として確認できる。</li>
+    </ul>
+  </div>
+
+  <footer class="navf">
+    <button onclick="goPage('p13')">← 前へ：第13講</button>
+    <span></span>
+  </footer>
+</section>
+
+</main>
+
+<script>
+  function goPage(id){
+    document.querySelectorAll('section.page').forEach(s=>s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    document.querySelectorAll('nav.tabs button').forEach(b=>b.classList.remove('active'));
+    document.querySelector('nav.tabs button[data-page="'+id+'"]').classList.add('active');
+    window.scrollTo({top:0, behavior:'smooth'});
+  }
+  document.getElementById('tabnav').addEventListener('click', function(e){
+    const btn = e.target.closest('button');
+    if(!btn) return;
+    goPage(btn.dataset.page);
+  });
+</script>
+
+</body>
+</html>
